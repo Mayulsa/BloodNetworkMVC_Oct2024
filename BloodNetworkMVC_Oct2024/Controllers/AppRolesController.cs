@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace BloodNetworkMVC_Oct2024.Controllers
 {
-    [Authorize]
+    [Authorize (Roles = "Admin")]
     public class AppRolesController : Controller
     {
         private readonly RoleManager<IdentityRole> _roleManager;
