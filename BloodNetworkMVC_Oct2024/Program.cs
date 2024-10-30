@@ -1,4 +1,5 @@
 using BloodNetworkMVC_Oct2024.Data;
+using BloodNetworkMVC_Oct2024.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,6 +10,11 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+//builder.Services.AddHangfire(config => config.UseSqlServerStorage(Configuration.GetConnectionString("DefaultConnection")));
+//builder.Services.AddHangfireServer();
+
+builder.Services.AddScoped<IBloodInventoryService, BloodInventoryService>();
+
 
 builder.Services.AddDefaultIdentity<IdentityUser>(/*options => options.SignIn.RequireConfirmedAccount = true*/).AddDefaultTokenProviders()
     .AddRoles<IdentityRole>()

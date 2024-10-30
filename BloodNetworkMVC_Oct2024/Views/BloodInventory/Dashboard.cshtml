@@ -1,0 +1,88 @@
+﻿@* @model DashboardViewModel *@
+
+<div class="container mx-auto p-4">
+    <h1 class="text-2xl font-bold mb-6">Blood Bank Dashboard</h1>
+
+    <!-- Summary Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+        <div class="bg-white p-4 rounded-lg shadow">
+            <h3 class="text-gray-500">Total Units</h3>
+            <p class="text-2xl font-bold">@Model.Report.TotalUnits</p>
+        </div>
+        <div class="bg-white p-4 rounded-lg shadow">
+            <h3 class="text-gray-500">Available Units</h3>
+            <p class="text-2xl font-bold">@Model.Report.AvailableUnits</p>
+        </div>
+        <div class="bg-white p-4 rounded-lg shadow">
+            <h3 class="text-gray-500">Expiring in 7 Days</h3>
+            <p class="text-2xl font-bold text-orange-600">@Model.Report.ExpiringIn7Days</p>
+        </div>
+    </div>
+
+    <!-- Blood Group Summary -->
+    <div class="bg-white p-4 rounded-lg shadow mb-6">
+        <h2 class="text-xl font-bold mb-4">Blood Group Summary</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            @foreach (var group in Model.Report.BloodGroupSummary)
+            {
+                <div class="border p-3 rounded">
+                    <h3 class="font-bold">@group.BloodGroup</h3>
+                    <p>Available: @group.TotalUnits</p>
+                    <p class="text-orange-600">Expiring: @group.ExpiringIn7Days</p>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- Expiring Units Alert -->
+    @if (Model.ExpiringUnits.Any())
+    {
+        <div class="bg-orange-100 border-l-4 border-orange-500 p-4 mb-6">
+            <h2 class="text-xl font-bold mb-2">Expiring Units Alert</h2>
+            <div class="overflow-x-auto">
+                <table class="min-w-full">
+                    <thead>
+                        <tr>
+                            <th>Blood Group</th>
+                            <th>Location</th>
+                            <th>Expiration Date</th>
+                            <th>Days Left</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var unit in Model.ExpiringUnits)
+                        {
+                            <tr>
+                                <td>@unit.BloodGroup</td>
+                                <td>@unit.Freezer.Name - @unit.Drawer.Name</td>
+                                <td>@unit.ExpirationDate.ToShortDateString()</td>
+                                <td>@((unit.ExpirationDate - DateTime.Now).Days)</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+
+    <!-- Storage Location Summary -->
+    <div class="bg-white p-4 rounded-lg shadow">
+        <h2 class="text-xl font-bold mb-4">Storage Location Summary</h2>
+        @foreach (var freezer in Model.Report.StorageLocationSummary)
+        {
+            <div class="mb-4">
+                <h3 class="font-bold">@freezer.FreezerName</h3>
+                <p>Capacity: @freezer.CurrentCount / @freezer.TotalCapacity</p>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-2 mt-2">
+                    @foreach (var drawer in freezer.DrawerSummaries)
+                    {
+                        <div class="border p-2 rounded text-sm">
+                            <p>@drawer.DrawerName</p>
+                            <p>@drawer.CurrentCount / @drawer.Capacity</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</div>

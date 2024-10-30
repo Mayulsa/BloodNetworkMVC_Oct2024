@@ -1,0 +1,19 @@
+﻿@model IEnumerable<BloodUnit>
+
+@if (Model.Any())
+{
+    <div class="list-group">
+        @foreach (var unit in Model)
+        {
+            <div class="list-group-item">
+                <h5 class="mb-1">Blood Unit @unit.Id (@unit.BloodGroup)</h5>
+                <p class="mb-1">Expires on: @unit.ExpirationDate.ToShortDateString()</p>
+                <small>Location: @unit.Freezer.Name - @unit.Drawer.Name</small>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <p>No units expiring soon.</p>
+}

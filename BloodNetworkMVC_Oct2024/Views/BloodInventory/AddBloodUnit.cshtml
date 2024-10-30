@@ -1,0 +1,59 @@
+﻿@model BloodUnit
+
+<div class="container mt-4">
+    <h2>Add New Blood Unit</h2>
+    <div class="card">
+        <div class="card-body">
+            <form asp-action="AddBloodUnit" method="post">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="BloodGroup">Blood Group</label>
+                            <select asp-for="BloodGroup" class="form-control">
+                                <option value="">Select Blood Group</option>
+                                <option value="A+">A+</option>
+                                <option value="A-">A-</option>
+                                <option value="B+">B+</option>
+                                <option value="B-">B-</option>
+                                <option value="AB+">AB+</option>
+                                <option value="AB-">AB-</option>
+                                <option value="O+">O+</option>
+                                <option value="O-">O-</option>
+                            </select>
+                            <span asp-validation-for="BloodGroup" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="CollectionDate">Collection Date</label>
+                            <input asp-for="CollectionDate" type="date" class="form-control" />
+                            <span asp-validation-for="CollectionDate" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="FreezerId">Freezer</label>
+                            <select asp-for="FreezerId" asp-items="ViewBag.Freezers" class="form-control">
+                                <option value="">Select Freezer</option>
+                            </select>
+                            <span asp-validation-for="FreezerId" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="DrawerId">Drawer</label>
+                            <select asp-for="DrawerId" asp-items="ViewBag.Drawers" class="form-control">
+                                <option value="">Select Drawer</option>
+                            </select>
+                            <span asp-validation-for="DrawerId" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group mt-4">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

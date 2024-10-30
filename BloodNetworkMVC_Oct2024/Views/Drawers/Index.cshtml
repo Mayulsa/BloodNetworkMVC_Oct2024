@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Drawer>
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Drawer Management</h2>
+        <a asp-action="Create" class="btn btn-primary">Add New Drawer</a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Name</th>
+                    <th>Freezer</th>
+                    <th>Capacity</th>
+                    <th>Current Count</th>
+                    <th>Available Space</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var drawer in Model)
+                {
+                    var availableSpace = drawer.Capacity - drawer.CurrentCount;
+                    var usagePercentage = (drawer.CurrentCount * 100.0 / drawer.Capacity);
+                    var statusClass = usagePercentage >= 90 ? "bg-danger" :
+                    usagePercentage >= 75 ? "bg-warning" : "bg-success";
+
+                    <tr>
+                        <td>@drawer.Name</td>
+                        <td>@drawer.Freezer?.Name</td>
+                        <td>@drawer.Capacity</td>
+                        <td>@drawer.CurrentCount</td>
+                        <td>
+                            <div class="progress">
+                                <div class="progress-bar @statusClass"
+                                     role="progressbar"
+                                     style="width: @usagePercentage%">
+                                    @availableSpace spaces
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="btn-group">
+                                <a asp-action="Edit" asp-route-id="@drawer.Id" class="btn btn-sm btn-primary">Edit</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

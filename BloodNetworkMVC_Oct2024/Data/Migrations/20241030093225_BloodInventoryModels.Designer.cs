@@ -4,6 +4,7 @@ using BloodNetworkMVC_Oct2024.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BloodNetworkMVC_Oct2024.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241030093225_BloodInventoryModels")]
+    partial class BloodInventoryModels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -62,7 +65,7 @@ namespace BloodNetworkMVC_Oct2024.Data.Migrations
 
                     b.HasIndex("FreezerId", "DrawerId");
 
-                    b.ToTable("BloodUnits", (string)null);
+                    b.ToTable("BloodUnits");
                 });
 
             modelBuilder.Entity("BloodNetworkMVC_Oct2024.Models.Drawer", b =>
@@ -91,7 +94,7 @@ namespace BloodNetworkMVC_Oct2024.Data.Migrations
 
                     b.HasIndex("FreezerId");
 
-                    b.ToTable("Drawers", (string)null);
+                    b.ToTable("Drawers");
                 });
 
             modelBuilder.Entity("BloodNetworkMVC_Oct2024.Models.Freezer", b =>
@@ -120,7 +123,7 @@ namespace BloodNetworkMVC_Oct2024.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Freezers", (string)null);
+                    b.ToTable("Freezers");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

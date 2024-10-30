@@ -1,0 +1,51 @@
+﻿@model BloodUnit
+
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header">
+            <h3>Blood Unit Details</h3>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <dl class="row">
+                        <dt class="col-sm-4">Blood Group</dt>
+                        <dd class="col-sm-8">@Model.BloodGroup</dd>
+
+                        <dt class="col-sm-4">Collection Date</dt>
+                        <dd class="col-sm-8">@Model.CollectionDate.ToLongDateString()</dd>
+
+                        <dt class="col-sm-4">Expiration Date</dt>
+                        <dd class="col-sm-8">
+                            <span class="@(Model.ExpirationDate <= DateTime.Now ? "text-danger" :
+                                         Model.ExpirationDate <= DateTime.Now.AddDays(7) ? "text-warning" : "")">
+                                @Model.ExpirationDate.ToLongDateString()
+                            </span>
+                        </dd>
+                    </dl>
+                </div>
+                <div class="col-md-6">
+                    <dl class="row">
+                        <dt class="col-sm-4">Status</dt>
+                        <dd class="col-sm-8">@Model.Status</dd>
+
+                        <dt class="col-sm-4">Storage Location</dt>
+                        <dd class="col-sm-8">
+                            Freezer: @Model.Freezer.Name<br />
+                            Drawer: @Model.Drawer.Name
+                        </dd>
+
+                        <dt class="col-sm-4">Temperature</dt>
+                        <dd class="col-sm-8">@Model.Freezer.Temperature°C</dd>
+                    </dl>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
+                <a asp-action="Transfer" asp-route-id="@Model.Id" class="btn btn-warning">Transfer</a>
+                <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+            </div>
+        </div>
+    </div>
+</div>

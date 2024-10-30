@@ -1,0 +1,91 @@
+﻿@* @model InventoryReport *@
+
+<div class="container">
+    <h2>Inventory Report</h2>
+    <p>Generated at: @Model.GeneratedAt</p>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Overview</h4>
+                </div>
+                <div class="card-body">
+                    <p>Total Units: @Model.TotalUnits</p>
+                    <p>Expiring in 7 Days: @Model.ExpiringIn7Days</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Blood Group Distribution</h4>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Blood Group</th>
+                                <th>Total</th>
+                                <th>Available</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var group in Model.BloodGroupCounts)
+                            {
+                                <tr>
+                                    <td>@group.BloodGroup</td>
+                                    <td>@group.Count</td>
+                                    <td>@group.AvailableCount</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Storage Utilization</h4>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Freezer</th>
+                                <th>Capacity</th>
+                                <th>Current Count</th>
+                                <th>Utilization</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var storage in Model.StorageUtilization)
+                            {
+                                <tr>
+                                    <td>@storage.FreezerName</td>
+                                    <td>@storage.TotalCapacity</td>
+                                    <td>@storage.CurrentCount</td>
+                                    <td>
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar"
+                                                 style="width: @storage.UtilizationPercentage%"
+                                                 aria-valuenow="@storage.UtilizationPercentage"
+                                                 aria-valuemin="0" aria-valuemax="100">
+                                                @storage.UtilizationPercentage.ToString("F1")%
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

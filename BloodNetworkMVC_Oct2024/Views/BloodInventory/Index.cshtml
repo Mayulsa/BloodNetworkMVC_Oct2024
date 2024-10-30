@@ -1,0 +1,75 @@
+﻿@model IEnumerable<BloodUnit>
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Blood Bank Inventory</h2>
+        <a asp-action="AddBloodUnit" class="btn btn-primary">Add New Blood Unit</a>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5>Quick Stats</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="alert alert-info">
+                        Total Units: @Model.Count()
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="alert alert-warning">
+                        Expiring Soon: @Model.Count(b => b.ExpirationDate <= DateTime.Now.AddDays(7))
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="alert alert-success">
+                        Available Units: @Model.Count(b => b.Status == "Available")
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="alert alert-danger">
+                        Expired Units: @Model.Count(b => b.ExpirationDate < DateTime.Now)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Blood Group</th>
+                    <th>Collection Date</th>
+                    <th>Expiration Date</th>
+                    <th>Status</th>
+                    <th>Freezer</th>
+                    <th>Drawer</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var unit in Model)
+                {
+                    <tr class="@(unit.ExpirationDate <= DateTime.Now ? "table-danger" :
+                                unit.ExpirationDate <= DateTime.Now.AddDays(7) ? "table-warning" : "")">
+                        <td>@unit.BloodGroup</td>
+                        <td>@unit.CollectionDate.ToShortDateString()</td>
+                        <td>@unit.ExpirationDate.ToShortDateString()</td>
+                        <td>@unit.Status</td>
+                        <td>@unit.Freezer.Name</td>
+                        <td>@unit.Drawer.Name</td>
+                        <td>
+                            <div class="btn-group">
+                                <a asp-action="Details" asp-route-id="@unit.Id" class="btn btn-sm btn-info">Details</a>
+                                <a asp-action="Edit" asp-route-id="@unit.Id" class="btn btn-sm btn-primary">Edit</a>
+                                <a asp-action="Transfer" asp-route-id="@unit.Id" class="btn btn-sm btn-warning">Transfer</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

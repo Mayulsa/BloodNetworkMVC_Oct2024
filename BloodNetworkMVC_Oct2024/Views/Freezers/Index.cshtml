@@ -1,0 +1,45 @@
+﻿@model IEnumerable<Freezer>
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Freezer Management</h2>
+        <a asp-action="Create" class="btn btn-primary">Add New Freezer</a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Name</th>
+                    <th>Location</th>
+                    <th>Temperature</th>
+                    <th>Status</th>
+                    <th>Drawers</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var freezer in Model)
+                {
+                    <tr>
+                        <td>@freezer.Name</td>
+                        <td>@freezer.Location</td>
+                        <td>@freezer.Temperature°C</td>
+                        <td>
+                            <span class="badge @(freezer.IsOperational ? "bg-success" : "bg-danger")">
+                                @(freezer.IsOperational ? "Operational" : "Out of Service")
+                            </span>
+                        </td>
+                        <td>@freezer.Drawers?.Count</td>
+                        <td>
+                            <div class="btn-group">
+                                <a asp-action="Details" asp-route-id="@freezer.Id" class="btn btn-sm btn-info">Details</a>
+                                <a asp-action="Edit" asp-route-id="@freezer.Id" class="btn btn-sm btn-primary">Edit</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

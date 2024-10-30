@@ -24,6 +24,7 @@ namespace BloodNetworkMVC_Oct2024.Models
         [CustomValidation(typeof(DrawerValidation), "ValidateCurrentCount")]
         [Display(Name = "Current Count")]
         public int CurrentCount { get; set; }
+        //public int CurrentCount { get => BloodUnits?.Count ?? 0;}
 
         [Required(ErrorMessage = "Freezer is required")]
         [Display(Name = "Freezer")]
